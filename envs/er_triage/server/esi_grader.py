@@ -265,9 +265,9 @@ def grade_episode(
             resource_penalty += overflow * 0.05  # -0.05 per over-allocated slot
 
     # --- Final reward ---
-    final = round(
-        max(1e-6, min(1 - 1e-6, base_score + critical_bonus - resource_penalty)), 3
-    )
+    final = max(0.001, min(0.999, round(
+        base_score + critical_bonus - resource_penalty, 3
+    )))
 
     return EpisodeRewardBreakdown(
         per_patient=per_patient_results,

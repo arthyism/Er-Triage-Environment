@@ -246,7 +246,7 @@ async def run_episode(
 
         # Normalise score to [0, 1]
         score   = sum(rewards) / MAX_TOTAL_REWARD if MAX_TOTAL_REWARD > 0 else 0.0
-        score   = max(1e-6, min(score, 1 - 1e-6))
+        score   = max(0.001, min(0.999, sum(rewards) / MAX_TOTAL_REWARD if MAX_TOTAL_REWARD > 0 else 0.001))
         success = score >= SUCCESS_SCORE_THRESHOLD
 
     except Exception as e:
