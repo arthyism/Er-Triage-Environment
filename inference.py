@@ -29,12 +29,12 @@ from openai import OpenAI
 # ---------------------------------------------------------------------------
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
-MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
-API_KEY = os.getenv("HF_TOKEN")
+MODEL_NAME   = os.getenv("MODEL_NAME",   "Qwen/Qwen2.5-72B-Instruct")
+API_KEY      = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
 
-# How to connect to the environment — prefer live Space, fallback to Docker
-ENV_BASE_URL     = os.getenv("ENV_BASE_URL")       # e.g. https://your-space.hf.space
-LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME", "")   # e.g. er-triage-env:latest
+# How to connect to the environment
+ENV_BASE_URL     = os.getenv("ENV_BASE_URL", "http://localhost:8000")
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
 
 BENCHMARK              = "er_triage"
 MAX_STEPS              = 1      # ER Triage is single-step per episode
@@ -269,10 +269,6 @@ async def run_episode(
 # ---------------------------------------------------------------------------
 
 async def main() -> None:
-    if not API_KEY:
-        print("[ERROR] HF_TOKEN or API_KEY not set", flush=True)
-        sys.exit(1)
-
     client     = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
     task_levels = ["easy", "medium", "hard"]
     
