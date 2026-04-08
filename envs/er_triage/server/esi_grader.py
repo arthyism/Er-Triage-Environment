@@ -266,7 +266,7 @@ def grade_episode(
 
     # --- Final reward ---
     final = round(
-        min(1.0, max(0.0, base_score + critical_bonus - resource_penalty)), 3
+        max(1e-6, min(1 - 1e-6, base_score + critical_bonus - resource_penalty)), 3
     )
 
     return EpisodeRewardBreakdown(
