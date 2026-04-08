@@ -193,14 +193,11 @@ async def run_episode(
     log_start(task=task_level, env=BENCHMARK, model=MODEL_NAME)
 
     # Connect to environment — prefer live URL, then Docker, then error
-    if ENV_BASE_URL:
-        env = ErTriageEnv(base_url=ENV_BASE_URL)
-    elif LOCAL_IMAGE_NAME:
+    if LOCAL_IMAGE_NAME:
         env = await ErTriageEnv.from_docker_image(LOCAL_IMAGE_NAME)
     else:
-        print("[ERROR] Set ENV_BASE_URL or LOCAL_IMAGE_NAME", flush=True)
-        log_end(success=False, steps=0, score=0.0, rewards=[])
-        return False, 0, 0.0, []
+        base_url = ENV_BASE_URL or "http://localhost:8000"
+        env = ErTriageEnv(base_url=base_url)
 
     try:
         result  = await env.reset(task_level=task_level)
