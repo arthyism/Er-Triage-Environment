@@ -18,3 +18,10 @@ try:
 except Exception as e:
     traceback.print_exc()
     raise  # crash loudly instead of falling back
+
+def main():
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+if __name__ == "__main__":
+    main()
