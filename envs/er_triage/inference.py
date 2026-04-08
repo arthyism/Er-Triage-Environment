@@ -49,7 +49,7 @@ MAX_TOTAL_REWARD = 1.0
 # Environment import
 # ---------------------------------------------------------------------------
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "envs"))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
     from er_triage.client import ErTriageEnv
